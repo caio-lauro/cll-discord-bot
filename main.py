@@ -1,3 +1,4 @@
+import os
 import discord
 
 intents = discord.Intents.default()
@@ -22,4 +23,11 @@ async def on_message(message):
             print('Exception occurred.', e, sep='\n')
         await message.channel.send(new_message)
 
-client.run('TOKEN')
+# Run on VM
+TOKEN = os.getenv('TOKEN')
+# Run locally using a TOKEN.txt file containing token
+if TOKEN == None:
+    with open('TOKEN.txt', 'r') as fp:
+        TOKEN = fp.readline()
+
+client.run(TOKEN)
