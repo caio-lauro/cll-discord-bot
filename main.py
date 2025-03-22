@@ -1,4 +1,5 @@
 import os
+import threading
 from flask import Flask
 from fnmatch import fnmatch
 import discord
@@ -7,7 +8,10 @@ app = Flask(__name__)
 @app.route('/')
 def home():
     return 'Bot is up!'
-app.run(host='0.0.0.0', port=8080)
+
+def run_flask():
+    app.run(host='0.0.0.0', port=8080)
+
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -48,4 +52,6 @@ if TOKEN == None:
     with open('TOKEN.txt', 'r') as fp:
         TOKEN = fp.readline()
 
+flask_thread = threading.Thread(target=run_flask)
+flask_thread.start()
 client.run(TOKEN)
