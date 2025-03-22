@@ -19,7 +19,7 @@ async def on_message(message):
         return
 
     if fnmatch(message.content, '*https://x.com/*/status/*'):
-        new_message = f'{message.content.replace('x.com', 'fxtwitter.com')}'
+        new_message = f"{message.content.replace('x.com', 'fxtwitter.com')}"
 
         try:
             await message.delete()
