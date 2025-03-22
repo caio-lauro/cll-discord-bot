@@ -19,13 +19,20 @@ async def on_message(message):
         return
 
     if fnmatch(message.content, '*https://x.com/*/status/*'):
-        new_message = f'{message.author.mention}\n{message.content.replace('x.com', 'fxtwitter.com')}'
+        new_message = f'{message.content.replace('x.com', 'fxtwitter.com')}'
 
         try:
             await message.delete()
         except Exception as e:
             print('Exception occurred.', e, sep='\n')
-        await message.channel.send(new_message)
+
+        webhook = await message.channel.create_webhook(name=message.author.name)
+        await webhook.send(
+            new_message, username=message.author.nick, avatar_url=message.author.avatar.url)
+        
+        webhooks = await message.channel.webhooks()
+        for webhook in webhooks:
+            await webhook.delete()
 
 # Run on VM
 TOKEN = os.getenv('TOKEN')
