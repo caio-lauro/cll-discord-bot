@@ -6,17 +6,20 @@ intents.message_content = True
 
 client = discord.Client(intents=intents)
 
+
 @client.event
 async def on_ready():
     print(f'We have logged in as {client.user}')
+
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
 
-    if 'https://x.com/i/status/' in message.content:
+    if fnmatch(message.content, '*https://x.com/*/status/*'):
         new_message = f'{message.author.mention}\n{message.content.replace('x.com', 'fxtwitter.com')}'
+
         try:
             await message.delete()
         except Exception as e:
