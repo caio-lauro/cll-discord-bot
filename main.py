@@ -1,6 +1,13 @@
 import os
+from flask import Flask
 from fnmatch import fnmatch
 import discord
+
+app = Flask(__name__)
+@app.route('/')
+def home():
+    return 'Bot is up!'
+app.run(host='0.0.0.0', port=8080)
 
 intents = discord.Intents.default()
 intents.message_content = True
